@@ -2,8 +2,22 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Star } from "lucide-react";
 import heroImage from "@/assets/hero-product.jpg";
+import { useCart } from "@/contexts/CartContext";
+
+const PRODUCT = {
+  id: "radiance-serum",
+  name: "Radiance Serum",
+  price: 89,
+  image: heroImage,
+};
 
 const HeroSection = () => {
+  const { addToCart } = useCart();
+
+  const handleShopNow = () => {
+    addToCart(PRODUCT);
+  };
+
   return (
     <section className="relative min-h-screen flex items-center gradient-hero overflow-hidden pt-20">
       {/* Background decorative elements */}
@@ -57,11 +71,11 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="hero" size="xl">
+              <Button variant="hero" size="xl" onClick={handleShopNow}>
                 Shop Now — $89
               </Button>
-              <Button variant="hero-outline" size="xl">
-                Learn More
+              <Button variant="hero-outline" size="xl" asChild>
+                <a href="#benefits">Learn More</a>
               </Button>
             </div>
 

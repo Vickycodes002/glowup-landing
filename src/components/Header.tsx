@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingBag } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { setIsCartOpen, totalItems } = useCart();
 
   const navLinks = [
     { label: "Benefits", href: "#benefits" },
@@ -39,21 +41,47 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* CTA Button */}
-        <div className="hidden md:block">
-          <Button variant="hero" size="lg">
+        {/* CTA Buttons */}
+        <div className="hidden md:flex items-center gap-4">
+          <Button variant="hero" size="lg" onClick={() => setIsCartOpen(true)}>
             Shop Now
           </Button>
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="relative p-2 hover:bg-muted rounded-lg transition-colors"
+            aria-label="Open cart"
+          >
+            <ShoppingBag className="h-5 w-5 text-foreground" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-medium">
+                {totalItems}
+              </span>
+            )}
+          </button>
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden p-2"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="relative p-2 hover:bg-muted rounded-lg transition-colors"
+            aria-label="Open cart"
+          >
+            <ShoppingBag className="h-5 w-5 text-foreground" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-medium">
+                {totalItems}
+              </span>
+            )}
+          </button>
+          <button
+            className="p-2"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -75,7 +103,7 @@ const Header = () => {
                 {link.label}
               </a>
             ))}
-            <Button variant="hero" size="lg" className="mt-2">
+            <Button variant="hero" size="lg" className="mt-2" onClick={() => { setIsCartOpen(true); setIsMenuOpen(false); }}>
               Shop Now
             </Button>
           </nav>
