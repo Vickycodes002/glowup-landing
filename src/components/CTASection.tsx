@@ -1,8 +1,23 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, ShieldCheck, Truck, RotateCcw } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import heroImage from "@/assets/hero-product.jpg";
+
+const PRODUCT = {
+  id: "radiance-serum",
+  name: "Radiance Serum",
+  price: 89,
+  image: heroImage,
+};
 
 const CTASection = () => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(PRODUCT);
+  };
+
   return (
     <section className="py-24 md:py-32 bg-background relative overflow-hidden">
       {/* Background decorative elements */}
@@ -62,7 +77,7 @@ const CTASection = () => {
               ))}
             </div>
 
-            <Button variant="hero" size="xl" className="w-full md:w-auto">
+            <Button variant="hero" size="xl" className="w-full md:w-auto" onClick={handleAddToCart}>
               Add to Cart — $89
             </Button>
 
